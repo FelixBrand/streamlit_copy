@@ -17,7 +17,7 @@ class livedemo():
 
         print(os.path.dirname(__file__))
         self.data = 'reports/Streamlit/data/mitdb_original_data/'
-        self.data = 'data/mitdb_original_data/'
+        #self.data = 'data/mitdb_original_data/'
         self.patients = ['100','101','102','103','104','105','106','107',
                 '108','109','111','112','113','114','115','116',
                 '117','118','119','121','122','123','124','200',
