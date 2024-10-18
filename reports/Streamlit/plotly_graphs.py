@@ -75,7 +75,7 @@ def class_distribution(colors):
             3: "Fusion of ventricular and normal beat",
             4: "Unclassifiable beat"}
 
-    distribution = pd.read_pickle("data\\MIT_classdistribution")
+    distribution = pd.read_pickle("data_selection/MIT_classdistribution")
     custom_labels = [f'Class {i}: {labels_long[i]}' for i in distribution.index]
     fig = go.Figure(go.Pie(labels=custom_labels, values=distribution.values,
                            marker=dict(colors=colors)))
@@ -312,6 +312,7 @@ def import_training_history(index, mlflow_data):
     """ Loads training-history from mlflow-artifacts """
     index = int(index)
     path = "..\\..\\notebooks\\mlartifacts\\0\\" + mlflow_data.loc[index, "run_id"] + "\\artifacts"
+    # path = ""
     matching_file = [
         f for f in os.listdir(path)
         if f.startswith("Training_History") and f.endswith(".html")

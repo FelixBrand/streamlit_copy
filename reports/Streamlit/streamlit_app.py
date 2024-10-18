@@ -19,7 +19,7 @@ labels_long = {0: "Normal beat",
 colors = ['red', 'blue', 'green', 'orange', 'purple']
 
 # Import ML-Flow-Database and minor modifications
-mlflow_data = pd.read_pickle("mlflow_database")
+mlflow_data = pd.read_pickle("reports/Streamlit/mlflow_database")
 mlflow_data.replace({"Combined_cnn_1": "Combined_CNN_1",
             "Convolution_smallkernel": "CNN_smallkernel",
             "Convolution_bigkernel": "CNN_bigkernel"}, inplace=True)
