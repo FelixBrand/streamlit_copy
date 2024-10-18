@@ -160,7 +160,7 @@ class livedemo():
                 xaxis_title=dict(text='Indices', font=FONT),
                 yaxis_title=dict(text='ECG-Channel / a.u.', font=FONT),
                 height=400,
-                width=1000)
+                width=750)
 
         return fig, l2_sig, v5_sig, real_classification
 
