@@ -1,0 +1,33 @@
+Model: "Dense_2"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_686 (Dense)           (None, 630)               199080    
+                                                                 
+ dense_687 (Dense)           (None, 1260)              795060    
+                                                                 
+ dropout_238 (Dropout)       (None, 1260)              0         
+                                                                 
+ dense_688 (Dense)           (None, 1260)              1588860   
+                                                                 
+ dense_689 (Dense)           (None, 1260)              1588860   
+                                                                 
+ dropout_239 (Dropout)       (None, 1260)              0         
+                                                                 
+ dense_690 (Dense)           (None, 630)               794430    
+                                                                 
+ dense_691 (Dense)           (None, 630)               397530    
+                                                                 
+ dropout_240 (Dropout)       (None, 630)               0         
+                                                                 
+ dense_692 (Dense)           (None, 315)               198765    
+                                                                 
+ dense_693 (Dense)           (None, 315)               99540     
+                                                                 
+ dense_694 (Dense)           (None, 5)                 1580      
+                                                                 
+=================================================================
+Total params: 5,663,705
+Trainable params: 5,663,705
+Non-trainable params: 0
+_________________________________________________________________

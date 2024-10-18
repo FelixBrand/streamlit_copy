@@ -9,11 +9,8 @@ FONT = dict(family="Arial", size=20,)
 FONT_TITLE = dict(family="Arial", size=22)
 
 # Dataframes for example-Heartbeats
-absolute_path = os.path.dirname(__file__)
-print(absolute_path)
-# relative_path = "data_selection/lib"
-df_kaggle = pd.read_pickle("data_selection/Resampled_kaggle_data")
-df_original = pd.read_pickle("data_selection/Resampled_original_data")
+df_kaggle = pd.read_pickle("reports/Streamlit/data/Resampled_kaggle_data")
+df_original = pd.read_pickle("reports/Streamlit/data/Resampled_original_data")
 
 def example_heartbeats(dataset_selection, colors):
     """Plots example-heartbeats"""
@@ -75,7 +72,7 @@ def class_distribution(colors):
             3: "Fusion of ventricular and normal beat",
             4: "Unclassifiable beat"}
 
-    distribution = pd.read_pickle("data_selection/MIT_classdistribution")
+    distribution = pd.read_pickle("reports/Streamlit/data/MIT_classdistribution")
     custom_labels = [f'Class {i}: {labels_long[i]}' for i in distribution.index]
     fig = go.Figure(go.Pie(labels=custom_labels, values=distribution.values,
                            marker=dict(colors=colors)))
@@ -143,12 +140,17 @@ def plot_sigmoid_weights():
 
 def shap_plots(cat):
     """ Interpretability according to shap-values"""
-    values1 = np.load("shapvalues_000_127.npy")
-    values2 = np.load("shapvalues_128_256.npy")
-    values3 = np.load("shapvalues_256_384.npy")
-    shap_values =np.concatenate((values1, values2, values3))
-    # import plotly.graph_objects as go
-    # from plotly.subplots import make_subplots
+    values1 = np.load("reports/Streamlit/data/shapvalues_000_127.npy")
+    values2 = np.load("reports/Streamlit/data/shapvalues_128_256.npy")
+    values3 = np.load("reports/Streamlit/data/shapvalues_256_384.npy")
+    values4 = np.load("reports/Streamlit/data/shapvalues_384_512.npy")
+    values5 = np.load("reports/Streamlit/data/shapvalues_000_128_train.npy")
+    values6 = np.load("reports/Streamlit/data/shapvalues_128_256_train.npy")
+    values7 = np.load("reports/Streamlit/data/shapvalues_256_384_train.npy")
+    values8 = np.load("reports/Streamlit/data/shapvalues_384_512_train.npy")
+    shap_values =np.concatenate((values1, values2, values3, values4,
+                                 values5, values6, values7, values8, ))
+
 
     mean_values = np.mean(shap_values, axis=0)
     std_upper = mean_values + np.std(shap_values, axis=0)
@@ -311,8 +313,8 @@ def mlflow_boxplot(mlflow_data, radio_parameter, radio_color, radio_dataset, rad
 def import_training_history(index, mlflow_data):
     """ Loads training-history from mlflow-artifacts """
     index = int(index)
-    path = "..\\..\\notebooks\\mlartifacts\\0\\" + mlflow_data.loc[index, "run_id"] + "\\artifacts"
-    # path = ""
+    path = "notebooks/mlartifacts/0/" + mlflow_data.loc[index, "run_id"] + "/artifacts"
+    # path = "..\\..\\notebooks\\mlartifacts\\0\\" + mlflow_data.loc[index, "run_id"] + "\\artifacts"
     matching_file = [
         f for f in os.listdir(path)
         if f.startswith("Training_History") and f.endswith(".html")

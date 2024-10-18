@@ -1,6 +1,6 @@
-tensorflow
+tensorflow<2.11
 mlflow
-numpy
+numpy<2
 plotly
 wfdb
 pandas

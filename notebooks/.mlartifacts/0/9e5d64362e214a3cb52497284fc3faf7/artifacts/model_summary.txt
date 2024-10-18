@@ -1,0 +1,51 @@
+Model: "Convolution_bigkernel"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ Conv1_32x3_s1 (Conv1D)      (None, 158, 16)           2064      
+                                                                 
+ Dropout1_p0.2 (Dropout)     (None, 158, 16)           0         
+                                                                 
+ Conv2_32x3_s1 (Conv1D)      (None, 79, 16)            32784     
+                                                                 
+ MaxPool1_2 (MaxPooling1D)   (None, 39, 16)            0         
+                                                                 
+ Conv3_64x3_s1 (Conv1D)      (None, 20, 32)            32800     
+                                                                 
+ Dropout2_p0.2 (Dropout)     (None, 20, 32)            0         
+                                                                 
+ Conv4_64x3_s1 (Conv1D)      (None, 10, 32)            65568     
+                                                                 
+ MaxPool2_2 (MaxPooling1D)   (None, 5, 32)             0         
+                                                                 
+ Conv5_128x3_s1 (Conv1D)     (None, 3, 64)             65600     
+                                                                 
+ Dropout3_p0.2 (Dropout)     (None, 3, 64)             0         
+                                                                 
+ Conv6_128x3_s1 (Conv1D)     (None, 2, 64)             131136    
+                                                                 
+ MaxPool3_2 (MaxPooling1D)   (None, 1, 64)             0         
+                                                                 
+ flatten_15 (Flatten)        (None, 64)                0         
+                                                                 
+ dense_197 (Dense)           (None, 2048)              133120    
+                                                                 
+ dropout_67 (Dropout)        (None, 2048)              0         
+                                                                 
+ dense_198 (Dense)           (None, 1024)              2098176   
+                                                                 
+ dropout_68 (Dropout)        (None, 1024)              0         
+                                                                 
+ dense_199 (Dense)           (None, 512)               524800    
+                                                                 
+ dropout_69 (Dropout)        (None, 512)               0         
+                                                                 
+ dense_200 (Dense)           (None, 64)                32832     
+                                                                 
+ dense_201 (Dense)           (None, 5)                 325       
+                                                                 
+=================================================================
+Total params: 3,119,205
+Trainable params: 3,119,205
+Non-trainable params: 0
+_________________________________________________________________

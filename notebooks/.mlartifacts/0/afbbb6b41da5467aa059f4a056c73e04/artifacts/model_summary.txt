@@ -1,0 +1,25 @@
+Model: "Dense_1"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_490 (Dense)           (None, 630)               397530    
+                                                                 
+ dense_491 (Dense)           (None, 630)               397530    
+                                                                 
+ dropout_170 (Dropout)       (None, 630)               0         
+                                                                 
+ dense_492 (Dense)           (None, 630)               397530    
+                                                                 
+ dropout_171 (Dropout)       (None, 630)               0         
+                                                                 
+ dense_493 (Dense)           (None, 315)               198765    
+                                                                 
+ dense_494 (Dense)           (None, 150)               47400     
+                                                                 
+ dense_495 (Dense)           (None, 5)                 755       
+                                                                 
+=================================================================
+Total params: 1,439,510
+Trainable params: 1,439,510
+Non-trainable params: 0
+_________________________________________________________________

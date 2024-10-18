@@ -1,0 +1,32 @@
+Model: "Combined_cnn_1"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to                     
+==================================================================================================
+ input_149 (InputLayer)         [(None, 315)]        0           []                               
+                                                                                                  
+ input_150 (InputLayer)         [(None, 315)]        0           []                               
+                                                                                                  
+ sequential_144 (Sequential)    (None, 128)          683744      ['input_149[0][0]']              
+                                                                                                  
+ sequential_145 (Sequential)    (None, 128)          683744      ['input_150[0][0]']              
+                                                                                                  
+ concatenate_73 (Concatenate)   (None, 256)          0           ['sequential_144[0][0]',         
+                                                                  'sequential_145[0][0]']         
+                                                                                                  
+ dense_513 (Dense)              (None, 256)          65792       ['concatenate_73[0][0]']         
+                                                                                                  
+ dense_514 (Dense)              (None, 256)          65792       ['dense_513[0][0]']              
+                                                                                                  
+ dense_515 (Dense)              (None, 128)          32896       ['dense_514[0][0]']              
+                                                                                                  
+ dropout_73 (Dropout)           (None, 128)          0           ['dense_515[0][0]']              
+                                                                                                  
+ dense_516 (Dense)              (None, 64)           8256        ['dropout_73[0][0]']             
+                                                                                                  
+ dense_517 (Dense)              (None, 5)            325         ['dense_516[0][0]']              
+                                                                                                  
+==================================================================================================
+Total params: 1,540,549
+Trainable params: 1,540,549
+Non-trainable params: 0
+__________________________________________________________________________________________________

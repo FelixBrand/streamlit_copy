@@ -6,6 +6,8 @@ import wfdb
 from wfdb import rdrecord, rdann, processing
 from tensorflow.keras.models import load_model
 from sklearn import preprocessing
+import os
+
 
 FONT = dict(family="Arial", size=20, color="black")
 
@@ -13,7 +15,9 @@ class livedemo():
     """ Class for livedemo in streamlit"""
     def __init__(self):
 
-        self.data = '..\\..\\data\\.mitdb_original_data\\'
+        print(os.path.dirname(__file__))
+        self.data = 'reports/Streamlit/data/mitdb_original_data/'
+        self.data = 'data/mitdb_original_data/'
         self.patients = ['100','101','102','103','104','105','106','107',
                 '108','109','111','112','113','114','115','116',
                 '117','118','119','121','122','123','124','200',
@@ -27,7 +31,7 @@ class livedemo():
             3: ['F'],
             4: ['Q', '?', 'f', '/'],
             }
-        self.model = load_model("..\\..\\models\\combined_cnn1_bs256_k7_noweights.keras",
+        self.model = load_model("combined_cnn1_bs256_k7_noweights.keras",
                                 compile=False)
 
 

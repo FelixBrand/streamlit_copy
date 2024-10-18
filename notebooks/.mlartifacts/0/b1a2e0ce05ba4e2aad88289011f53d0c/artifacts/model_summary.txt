@@ -1,0 +1,35 @@
+Model: "Convolution_smallkernel"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ Conv1_32x3_s1 (Conv1D)      (None, 313, 32)           128       
+                                                                 
+ Conv2_32x3_s1 (Conv1D)      (None, 311, 32)           3104      
+                                                                 
+ MaxPool1_2 (MaxPooling1D)   (None, 155, 32)           0         
+                                                                 
+ Conv3_64x3_s1 (Conv1D)      (None, 153, 64)           6208      
+                                                                 
+ Conv4_64x3_s1 (Conv1D)      (None, 151, 64)           12352     
+                                                                 
+ MaxPool2_2 (MaxPooling1D)   (None, 75, 64)            0         
+                                                                 
+ Conv5_128x3_s1 (Conv1D)     (None, 73, 128)           24704     
+                                                                 
+ Conv6_128x3_s1 (Conv1D)     (None, 71, 128)           49280     
+                                                                 
+ MaxPool3_2 (MaxPooling1D)   (None, 35, 128)           0         
+                                                                 
+ flatten_33 (Flatten)        (None, 4480)              0         
+                                                                 
+ dense_449 (Dense)           (None, 128)               573568    
+                                                                 
+ dense_450 (Dense)           (None, 64)                8256      
+                                                                 
+ dense_451 (Dense)           (None, 5)                 325       
+                                                                 
+=================================================================
+Total params: 677,925
+Trainable params: 677,925
+Non-trainable params: 0
+_________________________________________________________________

@@ -163,11 +163,11 @@ cython_debug/
 .vscode/
 
 # Data folder
+data/
 notebooks/01_originalDataset_fs180Hz.csv
 notebooks/mitbih_test.csv
 notebooks/mitbih_train.csv
 /mlruns
 notebooks/mlartifacts
 notebooks/mlruns
-/notebooks/.mlartifacts
-/data
+*.h5
