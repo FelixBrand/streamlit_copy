@@ -291,22 +291,25 @@ if page == "Live Test":
     record_number = st.selectbox("Select a record:", live.patients)
     fig = live.record_plot(record_number)
     # fig.update_layout(dragmode="drawrect")
-    area = st.plotly_chart(fig, on_select="rerun", selection_mode="box")
-
+    # area = st.plotly_chart(fig, on_select="rerun", selection_mode="box")
+    st.plotly_chart(fig)
+    area = index = st.number_input("# Training History for index:",
+                                    min_value=int(500), max_value=int(650000), value=10000,
+                                    step=int(1))
     st.json(area)
 
     # # Area is the selection in the plotly-Graph
     # if area["selection"]["box"] != []:
     #     area = np.mean(area["selection"]["box"][0]["x"])
 
-    #     fig, l2_sep, v5_sep, real_class = live.single_heartbeat_plot(record_number, area)
-    #     col1, col2 = st.columns(2, vertical_alignment="center")
-    #     col1.plotly_chart(fig)
+    fig, l2_sep, v5_sep, real_class = live.single_heartbeat_plot(record_number, area)
+    col1, col2 = st.columns(2, vertical_alignment="center")
+    col1.plotly_chart(fig)
 
-    #     text1, text2, text3 = live.prediction(l2_sep, v5_sep, real_class)
-    #     col2.write(text1)
-    #     col2.markdown(text2, unsafe_allow_html=True)
-    #     col2.markdown(text3, unsafe_allow_html=True)
+    text1, text2, text3 = live.prediction(l2_sep, v5_sep, real_class)
+    col2.write(text1)
+    col2.markdown(text2, unsafe_allow_html=True)
+    col2.markdown(text3, unsafe_allow_html=True)
 
 
 if page == "Interpretability":
