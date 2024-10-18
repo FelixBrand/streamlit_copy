@@ -9,8 +9,11 @@ FONT = dict(family="Arial", size=20,)
 FONT_TITLE = dict(family="Arial", size=22)
 
 # Dataframes for example-Heartbeats
-df_kaggle = pd.read_pickle("data_selection\\Resampled_kaggle_data")
-df_original = pd.read_pickle("data_selection\\Resampled_original_data")
+absolute_path = os.path.dirname(__file__)
+print(absolute_path)
+# relative_path = "data_selection/lib"
+df_kaggle = pd.read_pickle("data_selection/Resampled_kaggle_data")
+df_original = pd.read_pickle("data_selection/Resampled_original_data")
 
 def example_heartbeats(dataset_selection, colors):
     """Plots example-heartbeats"""
