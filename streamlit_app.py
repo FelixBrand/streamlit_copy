@@ -33,7 +33,7 @@ colors = ['red', 'blue', 'green', 'orange', 'purple']
 
 # Import ML-Flow-Database and minor modifications
 
-mlflow_data = pd.read_pickle("reports/Streamlit/data/mlflow_database.pkl")
+mlflow_data = pd.read_pickle("reports/Streamlit/data/mlflow_database")
 print(os.path.dirname(__file__))
 
 mlflow_data.replace({"Combined_cnn_1": "Combined_CNN_1",
