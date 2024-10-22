@@ -374,7 +374,7 @@ if page == "Interpretability":
 if page == "Conclusion & Limitation":
     st.write(f"## {page}")
     st.markdown("""
-                ## Conclusion0.968       0.952      0.960
+                ## Conclusion
                 - Very good results were achieved for precision (makro 0.968), recall (makro 9.952) and F1 score (makro 0.960) for all classes.
                 - Class 3, which was the least frequent class in the data set, had the worst classification values.
                 - The best network architecture that was analysed was the fusion network with two parallel 1D-CNN networks and a dense network for merging both networks.
