@@ -394,7 +394,7 @@ if page == "About":
              "\n"
              "Supervisor:\n"
              "- Francesco")
-    st.write("## Data:")
+    st.write("## Data")
     st.write("Original MIT Source:")
     st.write("Moody GB, Mark RG. The impact of the MIT-BIH Arrhythmia Database. IEEE Eng in Med and Biol 20(3):45-50 (May-June 2001). (PMID: 11446209)")
     st.write("https://archive.physionet.org/physiobank/database/html/mitdbdir/mitdbdir.htm")
