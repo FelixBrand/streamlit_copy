@@ -32,15 +32,13 @@ labels_long = {0: "Normal beat",
 colors = ['red', 'blue', 'green', 'orange', 'purple']
 
 # Import ML-Flow-Database and minor modifications
-
 mlflow_data = pd.read_pickle("reports/Streamlit/data/mlflow_database")
-print(os.path.dirname(__file__))
-
 mlflow_data.replace({"Combined_cnn_1": "Combined_CNN_1",
             "Convolution_smallkernel": "CNN_smallkernel",
             "Convolution_bigkernel": "CNN_bigkernel"}, inplace=True)
 mlflow_data["params.batch_size"] = mlflow_data["params.batch_size"].astype(int)
 mlflow_data["params.Kernel_size"] = mlflow_data["params.Kernel_size"].fillna("None")
+mlflow_data = mlflow_data.replace({"L2_and_V5": "[L2 | V5]", "L2V5": "[L2, V5]"})
 mlflow_data = mlflow_data.reset_index()
 
 
@@ -56,7 +54,7 @@ st.markdown(css, unsafe_allow_html=True)
 
 st.title("Heartbeat Arrhythmia Detection")
 pages = ["Introduction", "Available Data", "Data Exploration",
-          "Modelling", "Modelling Results", "Live Test", "Interpretability", "Conclusion", "About"]
+          "Modelling", "Modelling Results", "Live Test", "Interpretability", "Conclusion & Limitation", "About"]
 st.sidebar.title("Table of contents")
 page = st.sidebar.radio("Go to", pages)
 st.sidebar.write("# ")
@@ -163,7 +161,7 @@ if page == "Available Data":  # Match with "pages"-entries
         {colname1: "Normalisation", colname2: "Min-Max-Scaling per Heartbeat", colname3: "Max-Scaling per patient"},
         {colname1: "Data", colname2: "One channel / unknown", colname3: "Both channels"},
         {colname1: "Beat Seperation", colname2: "R to R/T", colname3: "P to T"},
-        {colname1: "...", colname2: "...", colname3: "..."},
+        #{colname1: "...", colname2: "...", colname3: "..."},
                                         ])
     # st.dataframe(dataset_comparision, width=750)#, hide_index=True
     # st.table(dataset_comparision, )
@@ -189,10 +187,9 @@ if page == "Data Exploration":
     st.write("### Amount of data:")
     st.markdown("""
                 - 105416 separate heartbeats
-                - 315 samples per channel
+                - 2 channesl (L2, V5) with 315 samples per channel
                 - sampling rate: 180 Hz
                 - max. 1.75 s per heartbeat, filled with 0s
-                - 2 channels (L2, V5)
                 - ~ 55% 0-values
                 """)
 
@@ -227,7 +224,7 @@ if page == "Modelling":
                 Three different types of sample weights were used:
                 - No weights: Each class has the same weight
                 - Balanced weights: Each class has a weight that is inversely proportional to its occurrence.
-                - Sigmoid weights: Compared to balanced weights, the weights of the underrepresented classes are reduced by a sigmoid function.""")
+                - Sigmoid weights: Compared to the balanced weights, the weights of the underrepresented classes are reduced by a sigmoid function.""")
     col2.plotly_chart(plotly_graphs.plot_sigmoid_weights())
 
 # %% Page "Modelling Results"
@@ -238,7 +235,11 @@ if page == "Modelling Results":
               "- Batch size: 256, 512, 1024, 2048 \n"
               "- Class weights normal, balanced, sigmoid \n"
               "- Kernel size: 3, 5, 7\n"
-              "- Data: L2, V5, [L2, V5], [L2 | V5]")
+              "- Data: \n"
+              "  - L2: Only Chanel L2 \n"
+              "  - V5: Only Channel V5 \n"
+              "  - [L2, V5]: Channel L2 + V5 combined \n"
+              "  - [L2 | V5]: Channel L2 and V5 with fusion net")
     st.write("### Boxplots for different kinds of hyperparameter")
     col1, col2, col3, col4, col5 = st.columns(5)
     radio_parameter = col1.radio("Parameter:", ("Model", "Batch size", "Class weights",
@@ -274,13 +275,56 @@ if page == "Modelling Results":
     st.divider()
 
     st.write("## Conclusion:")
-    st.markdown("""Best results for:
+    st.markdown("""
+                Best results for:
                 - Model: Combined_CNN_1
                 - Batch size: 256
-                - Data: L2 + V5
-                - Kernel size: """)
+                - Data: L2 | V5
+                - no weights
+                - Kernel size: 5""")
 
-    st.write("Balance Report for that combination and the crosstab")
+
+    col1, col2 = st.columns(2)
+    crosstab_train = pd.DataFrame({"Predict Class 0": [70263, 40, 15, 13, 8], "Predict Class 1": [19, 2152, 0, 0, 0],
+                                "Predict Class 2": [15, 16, 4895, 14, 1], "Predict Class 3": [9, 0, 22, 541, 0],
+                                "Predict Class 4": [3, 0, 0, 0, 6306]})
+    crosstab_train.index = ["Real Class 0", "Real Class 1", "Real Class 2", "Real Class 3", "Real Class 4"]
+
+    crosstab_val = pd.DataFrame({"Predict Class 0": [17541, 42, 23, 11, 7], "Predict Class 1": [18, 504, 2, 0, 0],
+                                "Predict Class 2": [11, 5, 1198, 6, 1], "Predict Class 3": [5, 0, 8, 125, 0],
+                                "Predict Class 4": [3, 1, 2, 0, 1571]})
+    crosstab_val.index = ["Real Class 0", "Real Class 1", "Real Class 2", "Real Class 3", "Real Class 4"]
+    col1.write("**Crosstab Train-Dataset:**")
+    col1.dataframe(crosstab_train,)
+    col2.write("**Crosstab Validation Dataset:**")
+    col2.dataframe(crosstab_val)
+
+    col1.write("**Classification Report Train-Dataset:**")
+    col1.text("""
+              Metric       precision    recall    f1-score    support
+              Class 0        0.999       0.999      0.999      70309
+              Class 1        0.991       0.975      0.983       2208
+              Class 2        0.991       0.992      0.992       4932
+              Class 3        0.946       0.952      0.949        568
+              Class 4        1.000       0.999      0.999       6315
+
+              accuracy                              0.998      84332
+              macro avg      0.985       0.984      0.984      84332
+              weighted avg   0.998       0.998      0.998      84332
+              """)
+    col2.write("**Classification Report Validation Dataset:**")
+    col2.text("""
+              Metric       precision    recall    f1-score    support
+              Class 0        0.995       0.998      0.997      17578
+              Class 1        0.962       0.913      0.937        552
+              Class 2        0.981       0.972      0.976       1233
+              Class 3        0.906       0.880      0.893        142
+              Class 4        0.996       0.995      0.996       1579
+
+              accuracy                              0.993      21084
+              macro avg      0.968       0.952      0.960      21084
+              weighted avg   0.993       0.993      0.993      21084
+              """)
 
 # %% Page: "Live Test"
 if page == "Live Test":
@@ -291,9 +335,10 @@ if page == "Live Test":
     record_number = st.selectbox("Select a record:", live.patients)
     fig = live.record_plot(record_number)
     # fig.update_layout(dragmode="drawrect")
-    # area = st.plotly_chart(fig, on_select="rerun", selection_mode="box")
-    st.plotly_chart(fig)
-    area = index = st.number_input("# Training History for index:",
+    area = st.plotly_chart(fig, on_select="rerun", selection_mode="box")
+
+    #st.json(area)
+    area = index = st.number_input("# Index to analyse:",
                                     min_value=int(500), max_value=int(650000), value=10000,
                                     step=int(1))
 
@@ -302,11 +347,15 @@ if page == "Live Test":
     # if area["selection"]["box"] != []:
     #     area = np.mean(area["selection"]["box"][0]["x"])
 
+
+
+
     fig, l2_sep, v5_sep, real_class = live.single_heartbeat_plot(record_number, area)
     col1, col2 = st.columns(2)#, vertical_alignment="center")
     col1.plotly_chart(fig)
 
     text1, text2, text3 = live.prediction(l2_sep, v5_sep, real_class)
+    col2.write("")
     col2.write(text1)
     col2.markdown(text2, unsafe_allow_html=True)
     col2.markdown(text3, unsafe_allow_html=True)
@@ -315,17 +364,27 @@ if page == "Live Test":
 if page == "Interpretability":
     st.write(f"## {page}")
     classdict = {"Class 0": 0, "Class 1": 1, "Class 2": 2, "Class 3": 3, "Class 4": 4}
-    radio_class = st.radio("Shape-Values of", classdict.keys(), horizontal=True)
-
+    radio_class = st.radio("Shap-Values of", classdict.keys(), horizontal=True)
     st.plotly_chart(plotly_graphs.shap_plots(classdict[radio_class]))
 
 
 
 
 # %% Page "Conclusion"
-if page == "Conclusion":
+if page == "Conclusion & Limitation":
     st.write(f"## {page}")
-    st.write("Here comes some text for the conclusion")
+    st.markdown("""
+                ## Conclusion0.968       0.952      0.960
+                - Very good results were achieved for precision (makro 0.968), recall (makro 9.952) and F1 score (makro 0.960) for all classes.
+                - Class 3, which was the least frequent class in the data set, had the worst classification values.
+                - The best network architecture that was analysed was the fusion network with two parallel 1D-CNN networks and a dense network for merging both networks.
+                """)
+    st.markdown("""
+                ## Limitation
+                - Although the data set has a high number of individual heartbeats, the number of patients is very limited.
+                - For further optimisation, work should first be carried out on expanding the data set with additional patients before further optimisation of the evaluation algorithm is carried out.
+                """)
+
 
 # %% Page "About"
 if page == "About":

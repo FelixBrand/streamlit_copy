@@ -38,11 +38,11 @@ def example_heartbeats(dataset_selection, colors):
                             subplot_titles=("Channel L2", "Channel V5"))
         for cat in [0, 1, 2, 3, 4]:
             fig.add_trace(go.Scatter(x=time, y=df_original.iloc[class_index[cat] + i, 0:315],
-                                        name=f"Class {cat}", legendgroup = str(cat),
+                                        name=f"L2: Class {cat}", legendgroup = str(cat),
                                         line=dict(color=colors[cat])),
                             row=1, col=1)
             fig.add_trace(go.Scatter(x=time, y=df_original.iloc[class_index[cat] + i, 315:-1],
-                                        name=f"Class {cat}", legendgroup = str(cat),
+                                        name=f"V5: Class {cat}", legendgroup = str(cat),
                                         line=dict(color=colors[cat])),
                             row=2, col=1)
         fig.update_layout(title=dict(text='Random examples from MIT-Dataset', font=FONT_TITLE),
